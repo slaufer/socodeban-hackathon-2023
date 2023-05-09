@@ -15,12 +15,12 @@ if (teststr !== resultstr) {
 
 // validate
 console.log("\nvalidation")
-x = new GameBoard('print("this is a test")', 0,0,x => x.trim() === "this is a test");
+x = new GameBoard('print("this is a test")', 0,0,x => x.output.trim() === "this is a test");
 if (! x.validate()) {
     console.log("validate positive");
 } else {  process.stdout.write("."); }
 
-x = new GameBoard('print("this is a test")', 0,0,x => x.trim() === "this is not a test");
+x = new GameBoard('print("this is a test")', 0,0,x => x.output.trim() === "this is not a test");
 if (x.validate()) {
     console.log("validate negative");
 } else {  process.stdout.write("."); }
