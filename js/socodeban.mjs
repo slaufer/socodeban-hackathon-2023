@@ -1,9 +1,11 @@
-import "js/skulpt/skulpt.min.js";
-import "js/skulpt/skulpt-stdlib.js";
+import "./skulpt/skulpt.min.js";
+import "./skulpt/skulpt-stdlib.js";
 
-class GameBoard {
+export default class GameBoard {
     constructor(script, cursor_x, cursor_y, validator) {
-        this.contents = stringToArrays(script);
+        this.contents = this.stringToArrays(script);
+        this.height = this.contents.length;
+        this.width = this.contents[0].length;
         this.cursor_x = cursor_x;
         this.cursor_y = cursor_y;
         this.validator = validator;
@@ -30,18 +32,22 @@ class GameBoard {
         this.output = "";
         Sk.configure({ output: (text) => this.storeOutput(text) });
         Sk.importMainWithBody("<stdin>", false, this.arraysToString(this.contents), true);
-        validator(this.output);
+        return this.validator(this.output);
     }
 
     storeOutput(str) {
-        this.output += "\n" + str;
+        if (this.output !== '') {
+            this.output += "\n" + str;
+        } else {
+            this.output = str;
+        }
     }
 
     stringToArrays(str) {
-
+        return str.split("\n").map(x => x.split(""));
     }
 
     arraysToString(arrs) {
-
+        return arrs.map(x => x.join('')).join('\n');
     }
 }
