@@ -4,10 +4,31 @@
         <meta charset=utf-8>
         <title>Display Test</title>
         <script type="text/javascript">
+            window.addEventListener('load', () => {
+                const gd = new GameDisplay();
+                gd.draw({
+                    width: 16,
+                    height: 12,
+                    moves: 17,
+                    cursorX: 3,
+                    cursorY: 1,
+                    contents: [["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P"],["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"],[" "," ","a","b","c"," "," ","d","e","f"," "," ","g","h","i"],["_",",",".","-","*","'","`","`","'","*","-",".",",","_",",","."],["S","t","i","l","l"," ","c","o","u","r","t"," ","n","o"," ","s"],["m","a","l","l"," ","t","h","i","n","k"," ","d","e","a","t","h"],["s","o"," ","a","n"," ","w","r","o","t","e","."," ","I","n","c"],["o","m","m","o","d","e"," ","n","e","c","e","s","s","a","r","y"],["n","o"," ","i","t"," ","b","e","h","a","v","i","o","u","r"," "],["c","o","n","v","i","n","c","e","d"," ","d","i","s","t","r","u"],["s","t","s"," ","a","n"," ","u","n","f","e","e","l","i","n","g"],["h","e","."," ","C","o","u","l","d"," ","d","e","a","t","h"," "]]
+                    /*contents: [
+                        [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P' ],
+                        [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' ],
+                        [ ' ', ' ', 'a', 'b', 'c' ],
+                        [ 'd', 'e', 'f', ' ', ' ' ],
+                        [ '_', '-', '*', '-', '_' ],
+
+                    ]*/
+                })
+            });
+
+            const VIEWPORT_WIDTH = 1024;
+            const VIEWPORT_HEIGHT = 768;
+
             class GameDisplay {
-                constructor() {
-                }
-                draw(board) {
+                debugDraw(board) {
                     const out = document.querySelector("#test-output");
                     out.innerHTML = ""
 
@@ -21,7 +42,7 @@
                             let disp = cell.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
 
                             if (i === board.cursorX && j == board.cursorY) {
-                                disp = `<span style="background-color: black; color: white;">${disp}</span>`;
+                                disp = `<span>${disp}</span>`;
                             }
 
                             out.innerHTML += disp;
@@ -30,31 +51,92 @@
                         out.innerHTML += "\n";
                     });
                 }
+
+                draw(board) {
+                    this.debugDraw(board);
+
+                    const vp = document.querySelector('#viewport');
+
+                    vp.innerHTML = "";
+
+                    board.contents.forEach((row, i) => {
+                        const rowElement = document.createElement('div');
+                        rowElement.setAttribute('class', 'viewport-row');
+
+                        row.forEach((cell, j) => {
+                            const cellElement = document.createElement('div');
+                            cellElement.setAttribute('class', 'viewport-cell');
+                            cellElement.innerHTML = cell.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(' ', '&nbsp;');
+
+                            cellElement.style.width = `${VIEWPORT_WIDTH / board.width}px`;
+                            cellElement.style.height = `${VIEWPORT_HEIGHT / board.height}px`;
+                            cellElement.style.lineHeight = `${VIEWPORT_HEIGHT / board.height}px`;
+                            cellElement.style.fontSize = `${VIEWPORT_HEIGHT / board.height}px`;
+
+
+                            if (i === board.cursorX && j === board.cursorY) {
+                                cellElement.style.backgroundColor = 'black';
+                                cellElement.style.color = 'white';
+                            }
+
+
+                            rowElement.appendChild(cellElement);
+                        });
+
+                        vp.appendChild(rowElement);
+                    });
+                }
+            }
+        </script>
+        <style type="text/css" media="all">
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: black;
+                color: white;
             }
 
-            window.addEventListener('load', () => {
-                const gd = new GameDisplay();
-                gd.draw({
-                    width: 5,
-                    height: 5,
-                    moves: 17,
-                    cursorX: 3,
-                    cursorY: 1,
-                    contents: [
-                        [ '-', '-', '-', '-', '-' ],
-                        [ 'h', 'e', 'l', 'l', 'o' ],
-                        [ '-', '-', '-', '-', '-' ],
-                        [ 'w', 'o', 'r', 'l', 'd' ],
-                        [ '-', '-', '-', '-', '-' ],
+            #viewport {
+                width: 1024px;
+                height: 768px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 30px;
+                background-color: white;
+                color: black;
+            }
 
-                    ]
-                })
-            });
-        </script>
+            #viewport .viewport-row, #viewport .viewport-cell {
+                border: 0;
+                margin: 0;
+                padding: 0;
+            }
+
+            #viewport .viewport-row {
+                display: block;
+            }
+
+            #viewport .viewport-cell:nth-child(odd) {
+                background-color: lightblue;
+            }
+
+            #viewport .viewport-cell {
+                display: inline-block;
+                text-align: center;
+            }
+
+            pre > span {
+                color: black;
+                background-color: white;
+            }
+
+            * {
+                font-family: Fixedsys, Consolas, Courier New, Courier, monospace;
+            }
+        </style>
     </head>
     <body>
-        <pre id="test-output">
-
-        </pre>
+        <div id="viewport"></div>
+        <pre id="test-output"></pre>
     </body>
 </html>
