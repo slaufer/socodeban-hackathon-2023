@@ -4,35 +4,13 @@ export default class GameDisplay {
         this.viewportHeight = viewportHeight;
     }
 
-    debugDraw(board) {
-        const out = document.querySelector("#test-output");
-        out.innerHTML = ""
-
-        out.innerHTML += `SIZE ${board.width} x ${board.height}\n`
-            + `MOVES ${board.moves}\n`
-            + `CURSOR ${board.cursor_x} ${board.cursor_y}\n\n`;
-        
-
-        board.contents.forEach((row, y) => {
-            row.forEach((cell, x) => {
-                let disp = cell.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
-
-                if (x === board.cursor_x && y == board.cursor_y) {
-                    disp = `<span>${disp}</span>`;
-                }
-
-                out.innerHTML += disp;
-            });
-
-            out.innerHTML += "\n";
-        });
-    }
-
     draw(board) {
-        console.log("REDRAW TIME", board);
-        this.debugDraw(board);
+        console.log(board);
 
-        const vp = document.querySelector('#viewport');
+        document.querySelector('#viewport-movecounter').innerText = `MOV_CNT: ${board.moves}`;
+        document.querySelector('#viewport-curpos').innerText = `CUR_POS: ${board.cursor_x},${board.cursor_y}`;
+
+        const vp = document.querySelector('#viewport-chars');
 
         vp.innerHTML = "";
 
@@ -44,20 +22,28 @@ export default class GameDisplay {
 
         board.contents.forEach((row, y) => {
             const rowElement = document.createElement('div');
-            rowElement.setAttribute('class', 'viewport-row');
+            
             rowElement.style.height = rowElement.style.maxHeight = cellHeight;
 
             const numberElement = document.createElement('div');
-            numberElement.setAttribute('class', 'viewport-line-number');
+
             numberElement.style.width = numberElement.style.maxWidth = cellWidth;
             numberElement.style.height = numberElement.style.maxHeight = cellHeight;
             numberElement.style.lineHeight = lineHeight;
             numberElement.style.fontSize = numberFontSize;
-            numberElement.innerHTML = y + 1;
+            
+
+            if (y == 0) {
+                rowElement.setAttribute('class', 'viewport-row viewport-row-header');
+                numberElement.setAttribute('class', 'viewport-line-number viewport-line-number-header');
+                numberElement.innerHTML = '&nbsp;';
+            } else {
+                numberElement.setAttribute('class', 'viewport-line-number');
+                rowElement.setAttribute('class', 'viewport-row');
+                numberElement.innerHTML = y;
+            }
 
             rowElement.appendChild(numberElement);
-
-
 
             row.forEach((cell, x) => {
                 const cellElement = document.createElement('div');
