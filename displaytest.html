@@ -21,7 +21,7 @@
                             let disp = cell.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
 
                             if (i === board.cursorX && j == board.cursorY) {
-                                disp = `<span style="background-color: black; color: white;">${disp}</b>`;
+                                disp = `<span style="background-color: black; color: white;">${disp}</span>`;
                             }
 
                             out.innerHTML += disp;
@@ -32,7 +32,7 @@
                 }
             }
 
-            (window.addEventListener('load', () => {
+            window.addEventListener('load', () => {
                 const gd = new GameDisplay();
                 gd.draw({
                     width: 5,
@@ -49,7 +49,7 @@
 
                     ]
                 })
-            }))();
+            });
         </script>
     </head>
     <body>
