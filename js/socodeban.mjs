@@ -10,6 +10,7 @@ export default class GameBoard {
         this.cursor_y = cursor_y;
         this.validator = validator;
         this.output = "";
+        this.moves = 0;
     }
 
     moveUp() {
@@ -19,6 +20,7 @@ export default class GameBoard {
             this.contents = zip(result[0]);
             this.cursor_y -= 1;
         }
+        this.moves += 1;
     }
 
     moveDown() {
@@ -28,6 +30,7 @@ export default class GameBoard {
             this.contents = zip(result[0].map(x => x.reverse()));
             this.cursor_y += 1;
         }
+        this.moves += 1;
     }
 
     moveLeft() {
@@ -36,6 +39,7 @@ export default class GameBoard {
             this.contents = result[0];
             this.cursor_x -= 1;
         }
+        this.moves += 1;
     }
 
     moveRight() {
@@ -45,6 +49,7 @@ export default class GameBoard {
             this.contents = result[0].map(x => x.reverse());
             this.cursor_x += 1;
         }
+        this.moves += 1;
     }
 
     _move(contents, cursor_x, cursor_y) {

@@ -72,6 +72,10 @@ if (x.contents[1].join('') !== "1 35 ") {
     console.log("left text 4");
 } else {  process.stdout.write("."); }
 
+if (x.moves !== 1) {
+    console.log("left moves '" + x.moves + "'");
+} else {  process.stdout.write("."); }
+
 
 // move right
 console.log("\nmove right");
@@ -118,6 +122,10 @@ if (x.cursor_x !== 4) {
 } else {  process.stdout.write("."); }
 if (x.contents[1].join('') !== "1 3 5") {
     console.log("right text 4 '" + x.contents[1].join('') + "'");
+} else {  process.stdout.write("."); }
+
+if (x.moves !== 1) {
+    console.log("right moves '" + x.moves + "'");
 } else {  process.stdout.write("."); }
 
 
@@ -168,6 +176,10 @@ if (x.contents.map(x=>x[1]).join('') !== "1 35 ") {
     console.log("up text 4 '" + x.contents.map(x=>x[1]).join('') + "'");
 } else {  process.stdout.write("."); }
 
+if (x.moves !== 1) {
+    console.log("up moves '" + x.moves + "'");
+} else {  process.stdout.write("."); }
+
 
 // move down
 console.log("\nmove down");
@@ -214,5 +226,9 @@ if (x.cursor_y !== 4) {
 } else {  process.stdout.write("."); }
 if (x.contents.map(x=>x[1]).join('') !== "1 3 5") {
     console.log("down text 4 '" + x.contents.map(x=>x[1]).join('') + "'");
+} else {  process.stdout.write("."); }
+
+if (x.moves !== 1) {
+    console.log("down moves '" + x.moves + "'");
 } else {  process.stdout.write("."); }
 
