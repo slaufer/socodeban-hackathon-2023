@@ -2,10 +2,14 @@ import "./skulpt/skulpt.min.js";
 import "./skulpt/skulpt-stdlib.js";
 
 export default class GameBoard {
-    constructor(script, cursor_x, cursor_y, validator) {
+    constructor(script, cursor_x, cursor_y, width, validator, filename = "") {
+        this.filename = filename;
+        if (filename !== "") {
+            script = "#File:" + filename + "\n" + script;
+        }
         this.contents = this.stringToArrays(script);
         this.height = this.contents.length;
-        this.width = Math.max(...this.contents.map(l => l.length));
+        this.width = Math.max(width, ...this.contents.map(l => l.length));
         for (const line of this.contents) {
             while (line.length < this.width) {
                 line.push(' ');
