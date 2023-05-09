@@ -5,7 +5,12 @@ export default class GameBoard {
     constructor(script, cursor_x, cursor_y, validator) {
         this.contents = this.stringToArrays(script);
         this.height = this.contents.length;
-        this.width = this.contents[0].length;
+        this.width = Math.max(...this.contents.map(l => l.length));
+        for (const line of this.contents) {
+            while (line.length < this.width) {
+                line.push(' ');
+            }
+        }
         this.cursor_x = cursor_x;
         this.cursor_y = cursor_y;
         this.validator = validator;

@@ -1,8 +1,18 @@
 import GameBoard from "./socodeban.mjs"
 
+// constructor
+console.log("constructor");
+let x = new GameBoard('1\n\n1234567\nasdf\nqwerty', 0,0,x=>x);
+if (x.width !== 7) {
+    console.log("constructor width bad");
+} else {  process.stdout.write("."); }
+if (x.contents.map(x=>x.join('')).join('\n') !== '1      \n       \n1234567\nasdf   \nqwerty ') {
+    console.log("constructor row padding bad");
+} else {  process.stdout.write("."); }
+
 // Str/Arr conversion
-console.log("str/array");
-let x = new GameBoard('', 0,0,x=>x);
+console.log("\nstr/array");
+x = new GameBoard('', 0,0,x=>x);
 let teststr = "qewr\nasdf\nzxcv";
 let testarray = x.stringToArrays(teststr);
 if (testarray.length !== 3 && testarray[0].length !== 4) {
