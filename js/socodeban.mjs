@@ -15,6 +15,7 @@ export default class GameBoard {
 
     moveUp() {
         let flipped = zip(this.contents);
+        // noinspection JSSuspiciousNameCombination
         let result = this._move(flipped, this.cursor_y, this.cursor_x);
         if (result[1] !== this.cursor_y) {
             this.contents = zip(result[0]);
@@ -25,6 +26,7 @@ export default class GameBoard {
 
     moveDown() {
         let flipped = zip(this.contents).map(x => [...x].reverse());
+        // noinspection JSSuspiciousNameCombination
         let result = this._move(flipped, this.height - this.cursor_y - 1, this.cursor_x);
         if (this.height - result[1] - 1 !== this.cursor_y) {
             this.contents = zip(result[0].map(x => x.reverse()));
