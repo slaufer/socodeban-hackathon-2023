@@ -3,90 +3,50 @@
     <head>
         <meta charset=utf-8>
         <title>Display Test</title>
-        <script type="text/javascript">
-            window.addEventListener('load', () => {
-                const gd = new GameDisplay();
-                gd.draw({
-                    width: 16,
-                    height: 12,
-                    moves: 17,
-                    cursorX: 3,
-                    cursorY: 1,
-                    contents: [["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P"],["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"],[" "," ","a","b","c"," "," ","d","e","f"," "," ","g","h","i"],["_",",",".","-","*","'","`","`","'","*","-",".",",","_",",","."],["S","t","i","l","l"," ","c","o","u","r","t"," ","n","o"," ","s"],["m","a","l","l"," ","t","h","i","n","k"," ","d","e","a","t","h"],["s","o"," ","a","n"," ","w","r","o","t","e","."," ","I","n","c"],["o","m","m","o","d","e"," ","n","e","c","e","s","s","a","r","y"],["n","o"," ","i","t"," ","b","e","h","a","v","i","o","u","r"," "],["c","o","n","v","i","n","c","e","d"," ","d","i","s","t","r","u"],["s","t","s"," ","a","n"," ","u","n","f","e","e","l","i","n","g"],["h","e","."," ","C","o","u","l","d"," ","d","e","a","t","h"," "]]
-                    /*contents: [
-                        [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P' ],
-                        [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' ],
-                        [ ' ', ' ', 'a', 'b', 'c' ],
-                        [ 'd', 'e', 'f', ' ', ' ' ],
-                        [ '_', '-', '*', '-', '_' ],
-
-                    ]*/
-                })
-            });
+        <script type="module">
+            import GameBoard from './js/socodeban.mjs';
+            import GameDisplay from './js/display.mjs';
 
             const VIEWPORT_WIDTH = 1024;
             const VIEWPORT_HEIGHT = 768;
 
-            class GameDisplay {
-                debugDraw(board) {
-                    const out = document.querySelector("#test-output");
-                    out.innerHTML = ""
+            window.addEventListener('load', () => {
+                const gd = new GameDisplay(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+                const gb = new GameBoard("print('hi')\nexit()\n\n# com\n\n# ment", 8, 1, () => false);
 
-                    out.innerHTML += `SIZE ${board.width} x ${board.height}\n`
-                        + `MOVES ${board.moves}\n`
-                        + `CURSOR ${board.cursorX} ${board.cursorY}\n\n`;
-                    
+                gd.draw(gb);
 
-                    board.contents.forEach((row, i) => {
-                        row.forEach((cell, j) => {
-                            let disp = cell.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
+                const vp = document.querySelector('#viewport');
+                vp.style.width = `${VIEWPORT_WIDTH}px`;
+                vp.style.height = `${VIEWPORT_HEIGHT}px`;
 
-                            if (i === board.cursorX && j == board.cursorY) {
-                                disp = `<span>${disp}</span>`;
-                            }
+                // arrow key handlers
+                window.addEventListener('keydown', (e) => {
+                    const key = e.key;
 
-                            out.innerHTML += disp;
-                        });
+                    if (key === 'ArrowUp') {
+                        e.preventDefault();
+                        console.log('up');
+                        gb.moveUp();
+                    } else if (key === 'ArrowDown') {
+                        e.preventDefault();
+                        console.log('down');
+                        gb.moveDown();
+                    } else if (key === 'ArrowLeft') {
+                        e.preventDefault();
+                        console.log('left');
+                        gb.moveLeft();
+                    } else if (key === 'ArrowRight') {
+                        e.preventDefault();
+                        console.log('right');
+                        gb.moveRight();
+                    }
 
-                        out.innerHTML += "\n";
-                    });
-                }
+                    gd.draw(gb);
+                });
+            });
 
-                draw(board) {
-                    this.debugDraw(board);
-
-                    const vp = document.querySelector('#viewport');
-
-                    vp.innerHTML = "";
-
-                    board.contents.forEach((row, i) => {
-                        const rowElement = document.createElement('div');
-                        rowElement.setAttribute('class', 'viewport-row');
-
-                        row.forEach((cell, j) => {
-                            const cellElement = document.createElement('div');
-                            cellElement.setAttribute('class', 'viewport-cell');
-                            cellElement.innerHTML = cell.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(' ', '&nbsp;');
-
-                            cellElement.style.width = `${VIEWPORT_WIDTH / board.width}px`;
-                            cellElement.style.height = `${VIEWPORT_HEIGHT / board.height}px`;
-                            cellElement.style.lineHeight = `${VIEWPORT_HEIGHT / board.height}px`;
-                            cellElement.style.fontSize = `${VIEWPORT_HEIGHT / board.height}px`;
-
-
-                            if (i === board.cursorX && j === board.cursorY) {
-                                cellElement.style.backgroundColor = 'black';
-                                cellElement.style.color = 'white';
-                            }
-
-
-                            rowElement.appendChild(cellElement);
-                        });
-
-                        vp.appendChild(rowElement);
-                    });
-                }
-            }
+            
         </script>
         <style type="text/css" media="all">
             body {
@@ -97,32 +57,41 @@
             }
 
             #viewport {
-                width: 1024px;
-                height: 768px;
                 margin-left: auto;
                 margin-right: auto;
                 margin-top: 30px;
                 background-color: white;
                 color: black;
+                border: 0;
+                padding: 0;
             }
 
-            #viewport .viewport-row, #viewport .viewport-cell {
+            #viewport .viewport-row,
+            #viewport .viewport-cell,
+            #viewport .viewport-line-number {
                 border: 0;
                 margin: 0;
                 padding: 0;
+                overflow: hidden;
             }
 
             #viewport .viewport-row {
                 display: block;
             }
-
-            #viewport .viewport-cell:nth-child(odd) {
-                background-color: lightblue;
+            
+            #viewport .viewport-line-number {
+                background-color: rgba(255, 192, 192, 0.5);
             }
 
-            #viewport .viewport-cell {
+            #viewport .viewport-cell:nth-child(odd) {
+                background-color: rgba(192, 192, 255, 0.25);
+            }
+
+            #viewport .viewport-cell,
+            #viewport .viewport-line-number {
                 display: inline-block;
                 text-align: center;
+                overflow: hidden;
             }
 
             pre > span {
@@ -130,8 +99,13 @@
                 background-color: white;
             }
 
+            @font-face {
+                font-family: 'Fixedsys';
+                src: url(ttf/FSEX300.ttf);
+            }
+
             * {
-                font-family: Fixedsys, Consolas, Courier New, Courier, monospace;
+                font-family: Fixedsys, monospace;
             }
         </style>
     </head>
