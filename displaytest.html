@@ -4,7 +4,7 @@
         <meta charset=utf-8>
         <title>Display Test</title>
         <script type="module">
-            import GameBoard from './js/socodeban.mjs';
+            import GameState from './js/socodeban.mjs';
             import GameDisplay from './js/display.mjs';
 
             const VIEWPORT_WIDTH = 1024;
@@ -12,7 +12,7 @@
 
             window.addEventListener('load', () => {
                 const gd = new GameDisplay(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                const gb = new GameBoard("print('hi')\nexit()\n\n# com\n\n# ment", 8, 1, () => false);
+                const gb = new GameState("print('hi')\nexit()\n\n# com\n\n# ment", 8, 1, () => false);
 
                 gd.draw(gb);
 
@@ -46,7 +46,7 @@
                 });
             });
 
-            
+
         </script>
         <style type="text/css" media="all">
             body {
@@ -78,7 +78,7 @@
             #viewport .viewport-row {
                 display: block;
             }
-            
+
             #viewport .viewport-line-number {
                 background-color: rgba(255, 192, 192, 0.5);
             }

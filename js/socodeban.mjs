@@ -1,7 +1,7 @@
 import "./skulpt/skulpt.min.js";
 import "./skulpt/skulpt-stdlib.js";
 
-export default class GameBoard {
+export default class GameState {
     constructor(script, cursor_x, cursor_y, width, validator, filename = "") {
         this.filename = filename;
         if (filename !== "") {
