@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+    <meta charset=utf-8>
+    <title>skulpt test</title>
+    <script src="js/skulpt/skulpt.min.js" type="text/javascript"></script>
+    <script src="js/skulpt/skulpt-stdlib.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        console.log("hello");
+        const prog = "print([x * 2 for x in range(10)])";
+        Sk.configure({ output: (text) => console.log(text) });
+        Sk.importMainWithBody("<stdin>", false, prog, true);
+    </script>
+</head>
+<body>
+​
+</body>
+</html>
