@@ -76,8 +76,14 @@ export default class GameBoard {
 
     validate() {
         this.output = "";
+        this.error = undefined;
         Sk.configure({ output: (text) => this.storeOutput(text) });
-        Sk.importMainWithBody("<stdin>", false, this.arraysToString(this.contents), true);
+        try {
+            Sk.importMainWithBody("<stdin>", false, this.arraysToString(this.contents), true);
+        } catch (e) {
+            this.error = e;
+            return false;
+        }
         return this.validator(this);
     }
 

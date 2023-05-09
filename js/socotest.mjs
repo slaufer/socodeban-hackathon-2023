@@ -25,6 +25,30 @@ if (x.validate()) {
     console.log("validate negative");
 } else {  process.stdout.write("."); }
 
+x = new GameBoard('"this is an invalid method".foobar()', 0,0,x => x.output.trim() === "this is not a test");
+if (x.validate()) {
+    console.log("validate syntax error");
+} else {  process.stdout.write("."); }
+if (x.error.toString() !== "AttributeError: 'str' object has no attribute 'foobar' on line 1") {
+    console.log("validate attribute error message " + x.error);
+} else {  process.stdout.write("."); }
+
+x = new GameBoard('object()[', 0,0,x => x.output.trim() === "this is not a test");
+if (x.validate()) {
+    console.log("validate syntax error");
+} else {  process.stdout.write("."); }
+if (x.error.toString() !== "SyntaxError: EOF in multi-line statement on line 2") {
+    console.log("validate syntax error message " + x.error);
+} else {  process.stdout.write("."); }
+
+x = new GameBoard('notanidentifier', 0,0,x => x.output.trim() === "this is not a test");
+if (x.validate()) {
+    console.log("validate syntax error");
+} else {  process.stdout.write("."); }
+if (x.error.toString() !== "NameError: name 'notanidentifier' is not defined on line 1") {
+    console.log("validate name error message " + x.error);
+} else {  process.stdout.write("."); }
+
 // move left
 console.log("\nmove left");
 x = new GameBoard('12345\n1 3 5\n12345', 0,1,x => x);
