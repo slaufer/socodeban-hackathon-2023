@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>Display Test</title>
+        <script type="text/javascript">
+            class GameDisplay {
+                constructor() {
+                }
+                draw(board) {
+                    const out = document.querySelector("#test-output");
+                    out.innerHTML = ""
+
+                    out.innerHTML += `SIZE ${board.width} x ${board.height}\n`
+                        + `MOVES ${board.moves}\n`
+                        + `CURSOR ${board.cursorX} ${board.cursorY}\n\n`;
+                    
+
+                    board.contents.forEach((row, i) => {
+                        row.forEach((cell, j) => {
+                            let disp = cell.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
+
+                            if (i === board.cursorX && j == board.cursorY) {
+                                disp = `<span style="background-color: black; color: white;">${disp}</b>`;
+                            }
+
+                            out.innerHTML += disp;
+                        });
+
+                        out.innerHTML += "\n";
+                    });
+                }
+            }
+
+            (window.addEventListener('load', () => {
+                const gd = new GameDisplay();
+                gd.draw({
+                    width: 5,
+                    height: 5,
+                    moves: 17,
+                    cursorX: 3,
+                    cursorY: 1,
+                    contents: [
+                        [ '-', '-', '-', '-', '-' ],
+                        [ 'h', 'e', 'l', 'l', 'o' ],
+                        [ '-', '-', '-', '-', '-' ],
+                        [ 'w', 'o', 'r', 'l', 'd' ],
+                        [ '-', '-', '-', '-', '-' ],
+
+                    ]
+                })
+            }))();
+        </script>
+    </head>
+    <body>
+        <pre id="test-output">
+
+        </pre>
+    </body>
+</html>
