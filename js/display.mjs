@@ -5,8 +5,6 @@ export default class GameDisplay {
     }
 
     draw(board) {
-        console.log(board);
-
         document.querySelector('#viewport-movecounter').innerText = `MOV_CNT: ${board.moves}`;
         document.querySelector('#viewport-curpos').innerText = `CUR_POS: ${board.cursor_x},${board.cursor_y}`;
 
@@ -57,8 +55,7 @@ export default class GameDisplay {
 
 
                 if (x === board.cursor_x && y === board.cursor_y) {
-                    cellElement.style.backgroundColor = 'black';
-                    cellElement.style.color = 'white';
+                    cellElement.setAttribute('class', 'viewport-cell viewport-cursor');
                 }
 
 

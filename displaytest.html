@@ -71,7 +71,7 @@
                 border: 0;
                 margin: 0;
                 padding: 0;
-                overflow: hidden;
+                overflow: visible;
             }
 
             #viewport #viewport-hud {
@@ -116,6 +116,26 @@
                 display: inline-block;
                 text-align: center;
                 overflow: hidden;
+            }
+
+            @keyframes cursor-pulse {
+                from {
+                    box-shadow: 0 0 1px 1px red;
+                }
+
+                to {
+                    box-shadow: 0 0 8px 2px red;
+                }
+            }
+
+            #viewport .viewport-cell.viewport-cursor {
+                animation-duration: 500ms;
+                animation-name: cursor-pulse;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+                animation-direction: alternate;
+                background: red;
+                color: white;
             }
 
             #viewport .viewport-row.viewport-row-header,
