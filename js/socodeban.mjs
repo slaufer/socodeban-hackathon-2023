@@ -2,10 +2,18 @@ import "./skulpt/skulpt.min.js";
 import "./skulpt/skulpt-stdlib.js";
 
 export default class GameState {
-    constructor(script, cursor_x, cursor_y, width, validator, filename = "") {
+    constructor(script, cursor_x, cursor_y, width, validator, filename = "", show_score=true) {
         this.filename = filename;
+        let prefix = "";
         if (filename !== "") {
-            script = "#File:" + filename + "\n" + script;
+            prefix += "FILE:" + filename;
+        }
+        if (show_score) {
+            prefix += "  MOVES: -1";
+        }
+        if (prefix !== "") {
+            script = "#" + prefix + "\n" + script;
+            cursor_y += 1;
         }
         this.contents = this.stringToArrays(script);
         this.height = this.contents.length;
@@ -19,7 +27,9 @@ export default class GameState {
         this.cursor_y = cursor_y;
         this.validator = validator;
         this.output = "";
-        this.moves = 0;
+        this.moves = -1;
+        this.show_score = show_score;
+        this.update_moves_display();
     }
 
     moveUp() {
@@ -30,7 +40,7 @@ export default class GameState {
             this.contents = zip(result[0]);
             this.cursor_y -= 1;
         }
-        this.moves += 1;
+        this.update_moves_display();
     }
 
     moveDown() {
@@ -41,7 +51,7 @@ export default class GameState {
             this.contents = zip(result[0].map(x => x.reverse()));
             this.cursor_y += 1;
         }
-        this.moves += 1;
+        this.update_moves_display();
     }
 
     moveLeft() {
@@ -50,7 +60,7 @@ export default class GameState {
             this.contents = result[0];
             this.cursor_x -= 1;
         }
-        this.moves += 1;
+        this.update_moves_display();
     }
 
     moveRight() {
@@ -60,7 +70,7 @@ export default class GameState {
             this.contents = result[0].map(x => x.reverse());
             this.cursor_x += 1;
         }
-        this.moves += 1;
+        this.update_moves_display();
     }
 
     _move(contents, cursor_x, cursor_y) {
@@ -81,6 +91,22 @@ export default class GameState {
         }
         contents[cursor_y][curr_x] = ' ';
         return [contents, cursor_x - 1];
+    }
+
+    update_moves_display() {
+        if (this.show_score) {
+            let first_line = this.contents[0].join('');
+            const m = first_line.match(".*MOVES: ?(-?[0-9]+)");
+            if (m !== null) {
+                this.moves = parseInt(m[1]);
+            }
+            this.moves += 1;
+            let suffix = "MOVES: " + this.moves;
+            first_line = first_line.substring(0, first_line.length - suffix.length) + suffix;
+            this.contents[0] = first_line.split('');
+        } else {
+            this.moves += 1;
+        }
     }
 
     validate() {
