@@ -10,7 +10,7 @@ export default [
             "# Goal: print 'Hello, World!'\n" +
             "# This string has too many spaces!\n" +
             "print('Hello, W o r l d ! ' )\n" +
-            "",
+            "\n\n\n\n\n\n\n",
     },
     {
         filename: "ADDPOWER.SUM",
@@ -20,10 +20,10 @@ export default [
         cursor_y: 2,
         min_width: 0,
         script:
-            "# Goal: print the number 42 \n" +
+            "# Goal: print 42 \n" +
             "\n" +
             "print(8 + 6 * 6 * 2) \n" +
-            "",
+            "\n\n\n\n",
     },
     {
         filename: "PREPWORK.EXE",

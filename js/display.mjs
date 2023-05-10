@@ -4,21 +4,21 @@ export default class GameDisplay {
         this.viewportHeight = viewportHeight;
     }
 
-    draw(board) {
-        const chaosLevel = Math.max(Math.min(Math.floor(board.moves / 10), 4), 0);
+    draw(gameState, puzzle) {
+        const chaosLevel = Math.max(Math.min(Math.floor(gameState.moves / (puzzle.par * 0.4)), 4), 0);
         document.querySelector('#viewport').setAttribute('class', `chaos-level-${chaosLevel}`);
 
-        const vp = document.querySelector('#viewport-chars');
+        const charViewport = document.querySelector('#viewport-chars');
 
-        vp.innerHTML = "";
+        charViewport.innerHTML = "";
 
-        const cellWidth = `${this.viewportWidth / (board.width + 1)}px`;
-        const cellHeight = `${this.viewportHeight / board.height}px`;
+        const cellWidth = `${this.viewportWidth / (gameState.width + 1)}px`;
+        const cellHeight = `${this.viewportHeight / gameState.height}px`;
         const lineHeight = cellHeight;
         const fontSize = cellHeight;
-        const numberFontSize = `${this.viewportHeight / board.height * 0.5}px`;
+        const numberFontSize = `${this.viewportHeight / gameState.height * 0.5}px`;
 
-        board.contents.forEach((row, y) => {
+        gameState.contents.forEach((row, y) => {
             const rowElement = document.createElement('div');
             
             rowElement.style.height = rowElement.style.maxHeight = cellHeight;
@@ -61,7 +61,7 @@ export default class GameDisplay {
                 cellElement.appendChild(cellElementInner);
 
 
-                if (x === board.cursor_x && y === board.cursor_y) {
+                if (x === gameState.cursor_x && y === gameState.cursor_y) {
                     cellElement.setAttribute('class', 'viewport-cell viewport-cursor');
                 }
 
@@ -69,7 +69,7 @@ export default class GameDisplay {
                 rowElement.appendChild(cellElement);
             });
 
-            vp.appendChild(rowElement);
+            charViewport.appendChild(rowElement);
         });
     }
 }
