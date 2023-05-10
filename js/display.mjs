@@ -5,8 +5,8 @@ export default class GameDisplay {
     }
 
     draw(board) {
-        document.querySelector('#viewport-movecounter').innerText = `MOV_CNT: ${board.moves}`;
-        document.querySelector('#viewport-curpos').innerText = `CUR_POS: ${board.cursor_x},${board.cursor_y}`;
+        const chaosLevel = Math.min(Math.floor(board.moves / 10), 4);
+        document.querySelector('#viewport').setAttribute('class', `chaos-level-${chaosLevel}`);
 
         const vp = document.querySelector('#viewport-chars');
 
@@ -30,15 +30,19 @@ export default class GameDisplay {
             numberElement.style.lineHeight = lineHeight;
             numberElement.style.fontSize = numberFontSize;
             
+            const numberElementInner = document.createElement('div');
+            numberElementInner.setAttribute('class', 'viewport-line-number-inner');
+            numberElement.appendChild(numberElementInner);
+
 
             if (y == 0) {
                 rowElement.setAttribute('class', 'viewport-row viewport-row-header');
                 numberElement.setAttribute('class', 'viewport-line-number viewport-line-number-header');
-                numberElement.innerHTML = '&nbsp;';
+                numberElementInner.innerHTML = '&nbsp;';
             } else {
                 numberElement.setAttribute('class', 'viewport-line-number');
                 rowElement.setAttribute('class', 'viewport-row');
-                numberElement.innerHTML = y;
+                numberElementInner.innerHTML = y;
             }
 
             rowElement.appendChild(numberElement);
@@ -46,12 +50,15 @@ export default class GameDisplay {
             row.forEach((cell, x) => {
                 const cellElement = document.createElement('div');
                 cellElement.setAttribute('class', 'viewport-cell');
-                cellElement.innerHTML = cell.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(' ', '&nbsp;');
-
                 cellElement.style.width = cellElement.style.maxWidth = cellWidth;
                 cellElement.style.height = cellElement.style.maxHeight = cellHeight;
                 cellElement.style.lineHeight = lineHeight;
                 cellElement.style.fontSize = fontSize;
+
+                const cellElementInner = document.createElement('div');
+                cellElementInner.setAttribute('class', 'viewport-cell-inner');
+                cellElementInner.innerHTML = cell.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace(' ', '&nbsp;');
+                cellElement.appendChild(cellElementInner);
 
 
                 if (x === board.cursor_x && y === board.cursor_y) {

@@ -12,7 +12,7 @@
 
             window.addEventListener('load', () => {
                 const gd = new GameDisplay(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                const gb = new GameState("print('hi')\nexit()\n\n# com\n\n# ment", 10, 2, 0, () => false, "test.fun");
+                const gb = new GameState("print('hi')\nexit()\n\n# com-\n\n# ment\n\n\n", 10, 2, 0, () => false, "test.fun");
 
                 gd.draw(gb);
 
@@ -41,8 +41,6 @@
                     gd.draw(gb);
                 });
             });
-
-
         </script>
         <style type="text/css" media="all">
             body {
@@ -50,6 +48,30 @@
                 padding: 0;
                 background-color: black;
                 color: white;
+            }
+
+            @keyframes viewport-jitter-low {
+                from { transform: translate(0, 0); }
+                25% { transform: translate(1px, 0)}
+                50% { transform: translate(1px, 1px); }
+                75% { transform: translate(0, 1px); }
+                to { transform: translate(1px, 1px); }
+            }
+
+            @keyframes viewport-jitter-med {
+                from { transform: translate(0, 0); }
+                25% { transform: translate(2px, -1px)}
+                50% { transform: translate(1px, 3px); }
+                75% { transform: translate(2px, -1px); }
+                to { transform: translate(4px, 0px); }
+            }
+
+            @keyframes viewport-jitter-high {
+                from { transform: translate(0, 0); }
+                25% { transform: translate(-3px, 7px)}
+                50% { transform: translate(-6px, 2px); }
+                75% { transform: translate(1px, -4px); }
+                to { transform: translate(5px, 3px); }
             }
 
             #viewport {
@@ -61,10 +83,18 @@
                 color: black;
                 border: 0;
                 padding: 0;
+
+                animation-duration: 100ms;
+                animation-iteration-count: infinite;
             }
 
+            #viewport.chaos-level-2 { animation-name: viewport-jitter-low; }
+            #viewport.chaos-level-3 { animation-name: viewport-jitter-med; }
+            #viewport.chaos-level-4 { animation-name: viewport-jitter-high; }
+
             #viewport #viewport-chars,
-            #viewport #viewport-hud,
+            #viewport #viewport-fx-static,
+            #viewport #viewport-fx-testpattern,
             #viewport .viewport-row,
             #viewport .viewport-cell,
             #viewport .viewport-line-number {
@@ -74,25 +104,79 @@
                 overflow: visible;
             }
 
-            #viewport #viewport-hud {
+            #viewport #viewport-fx-static,
+            #viewport #viewport-fx-testpattern {
                 position: absolute;
                 display: inline-block;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-
-                font-size: 48px;
-                color: blueviolet;
-                text-shadow: 3px 3px 0 black;
             }
 
-            #viewport #viewport-hud #viewport-movecounter {
-                float: left;
+            @keyframes testpattern-anim {
+                0% { background-position: 0 0;  }
+                25% { background-position: -1970px 2104px;}
+                50% { background-position: 0px -300px; }
+                75% { background-position: -1200px -910px;}
+                100% { background-position: 1024px 1536px; }
             }
 
-            #viewport #viewport-hud #viewport-curpos {
-                float: right;
+            #viewport #viewport-fx-testpattern {
+                background-image: url('img/testpattern.png');
+                opacity: 0.0;
+
+                animation-iteration-count: infinite;
+                animation-duration: 6000ms;
+                animation-timing-function: linear;
+            }
+
+            #viewport.chaos-level-3 #viewport-fx-testpattern {
+                animation-name: testpattern-anim;
+                opacity: 0.1;
+            }
+
+            #viewport.chaos-level-4 #viewport-fx-testpattern {
+                animation-name: testpattern-anim;
+                opacity: 0.3;
+            }
+
+            @keyframes static-anim {
+                0% { background-position: 0 0; }
+                10% { background-position: -5% -5%; }
+                20% { background-position: -10% 5%; }
+                30% { background-position: 5% -10%; }
+                40% { background-position: -5% 15%; }
+                50% { background-position: -10% 5%; }
+                60% { background-position: 15% 0; }
+                70% { background-position: 0 10%; }
+                80% { background-position: -15% 0; }
+                90% { background-position: 10% 5%; }
+                100% { background-position: 5% 0; }
+            }
+            
+            #viewport #viewport-fx-static {
+                background-image: url('img/static.png');
+                opacity: 0.0;
+
+                animation-iteration-count: infinite;
+                animation-duration: 300ms;
+                animation-timing-function: steps(11, jump-none);
+            }
+
+            #viewport.chaos-level-2 #viewport-fx-static {
+                animation-name: static-anim;
+                opacity: 0.1;
+            }
+
+            #viewport.chaos-level-3 #viewport-fx-static {
+                animation-name: static-anim;
+                opacity: 0.3;
+            }
+
+            #viewport.chaos-level-4 #viewport-fx-static {
+                animation-name: static-anim;
+                opacity: 0.5;
             }
 
             #viewport .viewport-row {
@@ -118,24 +202,101 @@
                 overflow: hidden;
             }
 
-            @keyframes cursor-pulse {
-                from {
-                    box-shadow: 0 0 1px 1px red;
-                }
+            @keyframes text-jitter-low {
+                from { transform: translate(0, 0); }
+                50% { transform: translate(1px, 0); }
+                to { transform: translate(1px, 1px); }
+            }
 
-                to {
-                    box-shadow: 0 0 8px 2px red;
-                }
+            @keyframes text-jitter-med {
+                from { transform: translate(0, 0); }
+                50% { transform: translate(3px, -3px); }
+                to { transform: translate(-1px, 1px); }
+            }
+
+            @keyframes text-jitter-high {
+                from { transform: translate(0, 0); }
+                50% { transform: translate(-6px, 7px); }
+                to { transform: translate(-1px, 1px); }
+            }
+
+            #viewport .viewport-cell-inner,
+            #viewport .viewport-line-number-inner {
+                animation-duration: 100ms;
+                animation-iteration-count: infinite;
+                position: relative;
+            }
+
+            #viewport.chaos-level-2 .viewport-cell-inner,
+            #viewport.chaos-level-2 .viewport-line-number-inner {
+                animation-name: text-jitter-low;
+            }
+
+            #viewport.chaos-level-3 .viewport-cell-inner,
+            #viewport.chaos-level-3 .viewport-line-number-inner {
+                animation-name: text-jitter-med;
+            }
+
+            #viewport.chaos-level-4 .viewport-cell-inner,
+            #viewport.chaos-level-4 .viewport-line-number-inner {
+                animation-name: text-jitter-high;
+            }
+
+            @keyframes cursor-pulse-low {
+                from { box-shadow: 0 0 1px 1px green; }
+                to { box-shadow: 0 0 8px 2px green; }
+            }
+
+            @keyframes cursor-pulse-med {
+                from { box-shadow: 0 0 1px 1px yellow; }
+                to { box-shadow: 0 0 16px 4px yellow; }
+            }
+
+            @keyframes cursor-pulse-high {
+                from { box-shadow: 0 0 1px 1px red; }
+                to { box-shadow: 0 0 32px 8px red; }
+            }
+
+            @keyframes cursor-pulse-max {
+                from { box-shadow: 0 0 1px 1px red; }
+                to { box-shadow: 0 0 64px 16px red; }
             }
 
             #viewport .viewport-cell.viewport-cursor {
-                animation-duration: 500ms;
-                animation-name: cursor-pulse;
+                animation-duration: 1000ms;
                 animation-iteration-count: infinite;
                 animation-timing-function: linear;
                 animation-direction: alternate;
+
+            }
+
+            #viewport.chaos-level-0 .viewport-cell.viewport-cursor {
+                background: blue;
+                color: white;
+            }
+
+            #viewport.chaos-level-1 .viewport-cell.viewport-cursor {
+                background: green;
+                color: white;
+                animation-name: cursor-pulse-low;
+            }
+
+            #viewport.chaos-level-2 .viewport-cell.viewport-cursor {
+                background: yellow;
+                color: white;
+                animation-name: cursor-pulse-med;
+            }
+
+            #viewport.chaos-level-3 .viewport-cell.viewport-cursor {
                 background: red;
                 color: white;
+                animation-name: cursor-pulse-high;
+            }
+
+            #viewport.chaos-level-4 .viewport-cell.viewport-cursor {
+                background: red;
+                color: white;
+                animation-name: cursor-pulse-max;
             }
 
             #viewport .viewport-row.viewport-row-header,
@@ -160,12 +321,10 @@
         </style>
     </head>
     <body>
-        <div id="viewport">
+        <div id="viewport" class="chaos-level-0">
             <div id="viewport-chars"></div>
-            <div id="viewport-hud">
-                <span id="viewport-movecounter"></span>
-                <span id="viewport-curpos"></span>
-            </div>
+            <div id="viewport-fx-static"></div>
+            <div id="viewport-fx-testpattern"></div>
         </div>
         <pre id="test-output"></pre>
     </body>
