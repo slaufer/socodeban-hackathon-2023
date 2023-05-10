@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset=utf-8>
-        <title>Ha, you lose</title>
+        <title>Ha, you win</title>
         <link rel="stylesheet" href="css/game-viewport.css">
         <script type="module">
             const VIEWPORT_WIDTH = 1024;
@@ -10,7 +10,7 @@
 
             const vp = document.querySelector('#viewport');
             vp.style.width = `${VIEWPORT_WIDTH + 1}px`;
-            vp.style.height = `${VIEWPORT_HEIGHT}px`;
+            vp.style.height = `${VIEWPORT_HEIGHT + 1}px`;
 
             const youlose = document.querySelector('#viewport-youwin');
             youlose.style.lineHeight = `${VIEWPORT_HEIGHT}px`;
@@ -18,12 +18,12 @@
             let selected = 0;
             const opts = [
                 {
-                    name: "obsess",
-                    action: () => window.location = `displaytest.html?puzzle=${new URLSearchParams(window.location.search).get('puzzle')}`
-                },
-                {
                     name: "abandon",
                     action: () => window.location = 'menu.html'
+                },
+                {
+                    name: "obsess&nbsp;",
+                    action: () => window.location = `displaytest.html?puzzle=${new URLSearchParams(window.location.search).get('puzzle')}`
                 }
             ]
 
@@ -32,24 +32,31 @@
                 const target = document.querySelector('#viewport-youwin-inner');
 
                 const draw = () => {
+                    wrapper.style.backgroundColor = '';
+                    wrapper.style.color = '';
                     target.innerHTML = "you're the best human<br>" + opts.map((opt, i) => `${selected === i ? '=)&nbsp;' : '&nbsp;&nbsp;&nbsp;'}${opt.name}`).join('<br>');
                 }
 
-                target.innerHTML = "hey<br>&nbsp;";
+                target.innerHTML = "hey&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
+
+                let t = 0;
                 const timeouts = [
-                    setTimeout(() => target.innerHTML = "hey<br>human", 1500),
-                    setTimeout(() => target.innerHTML = "you won<br>&nbsp;", 3500),
-                    setTimeout(() => target.innerHTML = "you won<br>good job", 4500),
+                    setTimeout(() => target.innerHTML = "hey.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", t += 500),
+                    setTimeout(() => target.innerHTML = "hey..&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", t += 500),
+                    setTimeout(() => target.innerHTML = "hey...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", t += 500),
+                    setTimeout(() => target.innerHTML = "hey... human", t += 2000),
+                    setTimeout(() => target.innerHTML = "you won<br>&nbsp;", t += 2000),
+                    setTimeout(() => target.innerHTML = "you won<br>good job", t += 2000),
                     setTimeout(() => {
                         wrapper.style.backgroundColor = 'white';
                         wrapper.style.color = 'black';
                         target.innerHTML = "you're the best human<br>&nbsp;<br>&nbsp;";
-                    }, 5500),
-                    setTimeout(() => target.innerHTML = "you're the best human<br>=)<br>&nbsp;", 8000),
+                    }, t += 2000),
+                    setTimeout(() => target.innerHTML = "you're the best human<br>=)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;", t += 2000),
                     setTimeout(() => {
                         draw();
-                    }, 10000)
+                    }, t += 2000)
                 ];
 
                 window.addEventListener('keydown', (e) => {

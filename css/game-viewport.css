@@ -51,6 +51,7 @@ body {
 #viewport #viewport-fx-static,
 #viewport #viewport-fx-testpattern,
 #viewport #viewport-youlose,
+#viewport #viewport-menu,
 #viewport .viewport-row,
 #viewport .viewport-cell,
 #viewport .viewport-line-number {
@@ -61,8 +62,11 @@ body {
 }
 
 #viewport #viewport-fx-static,
+#viewport #viewport-chars,
 #viewport #viewport-fx-testpattern,
-#viewport #viewport-youlose {
+#viewport #viewport-youlose,
+#viewport #viewport-youwin,
+#viewport #viewport-menu {
     position: absolute;
     display: inline-block;
     top: 0;
@@ -77,6 +81,10 @@ body {
 
 #viewport #viewport-youwin {
     background-color: black;
+}
+
+#viewport #viewport-menu {
+    background: url(../img/testpattern.png);
 }
 
 #viewport #viewport-youlose,

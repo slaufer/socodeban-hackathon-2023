@@ -5,6 +5,8 @@
         <title>Ha, you lose</title>
         <link rel="stylesheet" href="css/game-viewport.css">
         <script type="module">
+            import Puzzles from './js/puzzles.mjs';
+
             const VIEWPORT_WIDTH = 1024;
             const VIEWPORT_HEIGHT = 768;
 
@@ -30,7 +32,7 @@
             const draw = () => {
                 const target = document.querySelector('#viewport-youlose-inner');
 
-                target.innerHTML = "OOPS YOU DIED<BR>" + opts.map((opt, i) => `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name}`).join('<br>');
+                target.innerHTML = "MENU<BR>" + opts.map((opt, i) => `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name}`).join('<br>');
             }
 
             window.addEventListener('load', () => {
@@ -57,9 +59,8 @@
     </head>
     <body>
         <div id="viewport" class="chaos-level-0">
-            <div id="viewport-youlose">
-                <div id="viewport-youlose-inner">
-                </div>
+            <div id="viewport-menu">
+                ey
             </div>
         </div>
         <pre id="test-output"></pre>
