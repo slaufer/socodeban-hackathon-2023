@@ -115,7 +115,7 @@ export default class GameState {
                 this.moves = parseInt(m[1]);
             }
             this.moves += 1;
-            let suffix = "MOVES: " + this.moves;
+            let suffix = " MOVES: " + this.moves;
             first_line = first_line.substring(0, first_line.length - suffix.length) + suffix;
             this.contents[0] = first_line.split('');
         } else {
