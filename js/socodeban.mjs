@@ -2,7 +2,7 @@ import "./skulpt/skulpt.min.js";
 import "./skulpt/skulpt-stdlib.js";
 
 export default class GameState {
-    constructor(script, cursor_x, cursor_y, width, validator, filename = "", show_score=true) {
+    constructor(script, cursor_x, cursor_y, min_width, validator, filename = "", show_score=true) {
         this.filename = filename;
         let prefix = "";
         if (filename !== "") {
@@ -17,7 +17,7 @@ export default class GameState {
         }
         this.contents = this.stringToArrays(script);
         this.height = this.contents.length;
-        this.width = Math.max(width, ...this.contents.map(l => l.length));
+        this.width = Math.max(min_width, ...this.contents.map(l => l.length));
         for (const line of this.contents) {
             while (line.length < this.width) {
                 line.push(' ');
