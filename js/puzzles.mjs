@@ -27,7 +27,7 @@ export default [
     },
     {
         filename: "PREPWORK.EXE",
-        validator: (x => true),
+        validator: (_ => true),
         par: 1,
         cursor_x: 18,
         cursor_y: 3,
