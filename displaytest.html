@@ -60,6 +60,8 @@
 
                     if (gameState.moves > puzzle.par * 2) {
                         window.location = `youlose.html?puzzle=${puzzle.filename}`
+                    } else if (gameState.validate()) {
+                        window.location = `youwin.html?puzzle=${puzzle.filename}`
                     }
 
                     console.log(gameState.validate());

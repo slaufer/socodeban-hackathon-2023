@@ -73,12 +73,21 @@ body {
 
 #viewport #viewport-youlose {
     background-color: red;
+}
+
+#viewport #viewport-youwin {
+    background-color: black;
+}
+
+#viewport #viewport-youlose,
+#viewport #viewport-youwin {
     color: white;
     font-size: 72px;
     text-align: center;
 }
 
-#viewport #viewport-youlose-inner {
+#viewport #viewport-youlose-inner,
+#viewport #viewport-youwin-inner {
     line-height: 80px;
     display: inline-block;
 }

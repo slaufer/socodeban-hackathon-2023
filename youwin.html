@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>Ha, you lose</title>
+        <link rel="stylesheet" href="css/game-viewport.css">
+        <script type="module">
+            const VIEWPORT_WIDTH = 1024;
+            const VIEWPORT_HEIGHT = 768;
+
+            const vp = document.querySelector('#viewport');
+            vp.style.width = `${VIEWPORT_WIDTH + 1}px`;
+            vp.style.height = `${VIEWPORT_HEIGHT}px`;
+
+            const youlose = document.querySelector('#viewport-youwin');
+            youlose.style.lineHeight = `${VIEWPORT_HEIGHT}px`;
+
+            let selected = 0;
+            const opts = [
+                {
+                    name: "obsess",
+                    action: () => window.location = `displaytest.html?puzzle=${new URLSearchParams(window.location.search).get('puzzle')}`
+                },
+                {
+                    name: "abandon",
+                    action: () => window.location = 'menu.html'
+                }
+            ]
+
+            window.addEventListener('load', () => {
+                const wrapper = document.querySelector('#viewport-youwin');
+                const target = document.querySelector('#viewport-youwin-inner');
+
+                const draw = () => {
+                    target.innerHTML = "you're the best human<br>" + opts.map((opt, i) => `${selected === i ? '=)&nbsp;' : '&nbsp;&nbsp;&nbsp;'}${opt.name}`).join('<br>');
+                }
+
+                target.innerHTML = "hey<br>&nbsp;";
+
+                const timeouts = [
+                    setTimeout(() => target.innerHTML = "hey<br>human", 1500),
+                    setTimeout(() => target.innerHTML = "you won<br>&nbsp;", 3500),
+                    setTimeout(() => target.innerHTML = "you won<br>good job", 4500),
+                    setTimeout(() => {
+                        wrapper.style.backgroundColor = 'white';
+                        wrapper.style.color = 'black';
+                        target.innerHTML = "you're the best human<br>&nbsp;<br>&nbsp;";
+                    }, 5500),
+                    setTimeout(() => target.innerHTML = "you're the best human<br>=)<br>&nbsp;", 8000),
+                    setTimeout(() => {
+                        draw();
+                    }, 10000)
+                ];
+
+                window.addEventListener('keydown', (e) => {
+                    const key = e.key;
+
+                    if (key === 'ArrowUp') {
+                        e.preventDefault();
+                        timeouts.forEach((timeout) => clearTimeout(timeout));
+                        selected = Math.abs((selected - 1) % opts.length);
+                    } else if (key === 'ArrowDown') {
+                        e.preventDefault();
+                        timeouts.forEach((timeout) => clearTimeout(timeout));
+                        selected = Math.abs((selected + 1) % opts.length);
+                    } else if (key === 'Enter') {
+                        e.preventDefault();
+                        timeouts.forEach((timeout) => clearTimeout(timeout));
+                        opts[selected].action();
+                    }
+
+                    draw();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="viewport" class="chaos-level-0">
+            <div id="viewport-youwin">
+                <div id="viewport-youwin-inner"></div>
+            </div>
+        </div>
+        <pre id="test-output"></pre>
+    </body>
+</html>

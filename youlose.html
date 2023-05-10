@@ -30,11 +30,7 @@
             const draw = () => {
                 const target = document.querySelector('#viewport-youlose-inner');
 
-                target.innerHTML = "OOPS YOU DIED<BR>";
-
-                opts.forEach((opt, i) => {
-                    target.innerHTML += `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name}<br>`;
-                });
+                target.innerHTML = "OOPS YOU DIED<BR>" + opts.map((opt, i) => `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name}`).join('<br>');
             }
 
             window.addEventListener('load', () => {
