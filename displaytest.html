@@ -3,22 +3,40 @@
     <head>
         <meta charset=utf-8>
         <title>Display Test</title>
+        <link rel="stylesheet" href="css/game-viewport.css">
         <script type="module">
             import GameState from './js/socodeban.mjs';
             import GameDisplay from './js/display.mjs';
+            import Puzzles from './js/puzzles.mjs';
 
             const VIEWPORT_WIDTH = 1024;
             const VIEWPORT_HEIGHT = 768;
 
             window.addEventListener('load', () => {
-                const gd = new GameDisplay(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-                const gb = new GameState("print('hi')\nexit()\n\n# com-\n\n# ment\n\n\n", 10, 2, 0, () => false, "test.fun");
+                const puzzle = Puzzles.find(p => p.filename === new URLSearchParams(window.location.search).get('puzzle'));
 
-                gd.draw(gb);
+                if (!puzzle) {
+                    alert("Congratulations, you played yourself");
+                    return;
+                }
+
+                const gameDisplay = new GameDisplay(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+                // const gameState = new GameState("print('hi')\nexit()\n\n# com-\n\n# ment\n\n\n", 10, 2, 0, () => false, "test.fun");
+                const gameState = new GameState(
+                    puzzle.script,
+                    puzzle.cursor_x,
+                    puzzle.cursor_y,
+                    puzzle.min_width,
+                    puzzle.validator,
+                    puzzle.filename,
+                    puzzle.show_score === undefined ? true : puzzle.show_score,
+                );
+
+                gameDisplay.draw(gameState);
 
                 const vp = document.querySelector('#viewport');
-                vp.style.width = `${VIEWPORT_WIDTH}px`;
-                vp.style.height = `${VIEWPORT_HEIGHT}px`;
+                vp.style.width = `${VIEWPORT_WIDTH + 1}px`;
+                vp.style.height = `${VIEWPORT_HEIGHT + 1}px`;
 
                 // arrow key handlers
                 window.addEventListener('keydown', (e) => {
@@ -26,299 +44,22 @@
 
                     if (key === 'ArrowUp') {
                         e.preventDefault();
-                        gb.moveUp();
+                        gameState.moveUp();
                     } else if (key === 'ArrowDown') {
                         e.preventDefault();
-                        gb.moveDown();
+                        gameState.moveDown();
                     } else if (key === 'ArrowLeft') {
                         e.preventDefault();
-                        gb.moveLeft();
+                        gameState.moveLeft();
                     } else if (key === 'ArrowRight') {
                         e.preventDefault();
-                        gb.moveRight();
+                        gameState.moveRight();
                     }
 
-                    gd.draw(gb);
+                    gameDisplay.draw(gameState);
                 });
             });
         </script>
-        <style type="text/css" media="all">
-            body {
-                margin: 0;
-                padding: 0;
-                background-color: black;
-                color: white;
-            }
-
-            @keyframes viewport-jitter-low {
-                from { transform: translate(0, 0); }
-                25% { transform: translate(1px, 0)}
-                50% { transform: translate(1px, 1px); }
-                75% { transform: translate(0, 1px); }
-                to { transform: translate(1px, 1px); }
-            }
-
-            @keyframes viewport-jitter-med {
-                from { transform: translate(0, 0); }
-                25% { transform: translate(2px, -1px)}
-                50% { transform: translate(1px, 3px); }
-                75% { transform: translate(2px, -1px); }
-                to { transform: translate(4px, 0px); }
-            }
-
-            @keyframes viewport-jitter-high {
-                from { transform: translate(0, 0); }
-                25% { transform: translate(-3px, 7px)}
-                50% { transform: translate(-6px, 2px); }
-                75% { transform: translate(1px, -4px); }
-                to { transform: translate(5px, 3px); }
-            }
-
-            #viewport {
-                position: relative;
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: 30px;
-                background-color: white;
-                color: black;
-                border: 0;
-                padding: 0;
-
-                animation-duration: 100ms;
-                animation-iteration-count: infinite;
-            }
-
-            #viewport.chaos-level-2 { animation-name: viewport-jitter-low; }
-            #viewport.chaos-level-3 { animation-name: viewport-jitter-med; }
-            #viewport.chaos-level-4 { animation-name: viewport-jitter-high; }
-
-            #viewport #viewport-chars,
-            #viewport #viewport-fx-static,
-            #viewport #viewport-fx-testpattern,
-            #viewport .viewport-row,
-            #viewport .viewport-cell,
-            #viewport .viewport-line-number {
-                border: 0;
-                margin: 0;
-                padding: 0;
-                overflow: visible;
-            }
-
-            #viewport #viewport-fx-static,
-            #viewport #viewport-fx-testpattern {
-                position: absolute;
-                display: inline-block;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-
-            @keyframes testpattern-anim {
-                0% { background-position: 0 0;  }
-                25% { background-position: -1970px 2104px;}
-                50% { background-position: 0px -300px; }
-                75% { background-position: -1200px -910px;}
-                100% { background-position: 1024px 1536px; }
-            }
-
-            #viewport #viewport-fx-testpattern {
-                background-image: url('img/testpattern.png');
-                opacity: 0.0;
-
-                animation-iteration-count: infinite;
-                animation-duration: 6000ms;
-                animation-timing-function: linear;
-            }
-
-            #viewport.chaos-level-3 #viewport-fx-testpattern {
-                animation-name: testpattern-anim;
-                opacity: 0.1;
-            }
-
-            #viewport.chaos-level-4 #viewport-fx-testpattern {
-                animation-name: testpattern-anim;
-                opacity: 0.3;
-            }
-
-            @keyframes static-anim {
-                0% { background-position: 0 0; }
-                10% { background-position: -5% -5%; }
-                20% { background-position: -10% 5%; }
-                30% { background-position: 5% -10%; }
-                40% { background-position: -5% 15%; }
-                50% { background-position: -10% 5%; }
-                60% { background-position: 15% 0; }
-                70% { background-position: 0 10%; }
-                80% { background-position: -15% 0; }
-                90% { background-position: 10% 5%; }
-                100% { background-position: 5% 0; }
-            }
-            
-            #viewport #viewport-fx-static {
-                background-image: url('img/static.png');
-                opacity: 0.0;
-
-                animation-iteration-count: infinite;
-                animation-duration: 300ms;
-                animation-timing-function: steps(11, jump-none);
-            }
-
-            #viewport.chaos-level-2 #viewport-fx-static {
-                animation-name: static-anim;
-                opacity: 0.1;
-            }
-
-            #viewport.chaos-level-3 #viewport-fx-static {
-                animation-name: static-anim;
-                opacity: 0.3;
-            }
-
-            #viewport.chaos-level-4 #viewport-fx-static {
-                animation-name: static-anim;
-                opacity: 0.5;
-            }
-
-            #viewport .viewport-row {
-                display: block;
-            }
-
-            #viewport .viewport-line-number {
-                background-color: rgba(255, 192, 192, 0.5);
-            }
-
-            #viewport .viewport-cell:nth-child(odd) {
-                background-color: rgba(192, 192, 255, 0.25);
-            }
-
-            #viewport .viewport-row.viewport-row-header .viewport-cell {
-                background: initial;
-            }
-
-            #viewport .viewport-cell,
-            #viewport .viewport-line-number {
-                display: inline-block;
-                text-align: center;
-                overflow: hidden;
-            }
-
-            @keyframes text-jitter-low {
-                from { transform: translate(0, 0); }
-                50% { transform: translate(1px, 0); }
-                to { transform: translate(1px, 1px); }
-            }
-
-            @keyframes text-jitter-med {
-                from { transform: translate(0, 0); }
-                50% { transform: translate(3px, -3px); }
-                to { transform: translate(-1px, 1px); }
-            }
-
-            @keyframes text-jitter-high {
-                from { transform: translate(0, 0); }
-                50% { transform: translate(-6px, 7px); }
-                to { transform: translate(-1px, 1px); }
-            }
-
-            #viewport .viewport-cell-inner,
-            #viewport .viewport-line-number-inner {
-                animation-duration: 100ms;
-                animation-iteration-count: infinite;
-                position: relative;
-            }
-
-            #viewport.chaos-level-2 .viewport-cell-inner,
-            #viewport.chaos-level-2 .viewport-line-number-inner {
-                animation-name: text-jitter-low;
-            }
-
-            #viewport.chaos-level-3 .viewport-cell-inner,
-            #viewport.chaos-level-3 .viewport-line-number-inner {
-                animation-name: text-jitter-med;
-            }
-
-            #viewport.chaos-level-4 .viewport-cell-inner,
-            #viewport.chaos-level-4 .viewport-line-number-inner {
-                animation-name: text-jitter-high;
-            }
-
-            @keyframes cursor-pulse-low {
-                from { box-shadow: 0 0 1px 1px green; }
-                to { box-shadow: 0 0 8px 2px green; }
-            }
-
-            @keyframes cursor-pulse-med {
-                from { box-shadow: 0 0 1px 1px yellow; }
-                to { box-shadow: 0 0 16px 4px yellow; }
-            }
-
-            @keyframes cursor-pulse-high {
-                from { box-shadow: 0 0 1px 1px red; }
-                to { box-shadow: 0 0 32px 8px red; }
-            }
-
-            @keyframes cursor-pulse-max {
-                from { box-shadow: 0 0 1px 1px red; }
-                to { box-shadow: 0 0 64px 16px red; }
-            }
-
-            #viewport .viewport-cell.viewport-cursor {
-                animation-duration: 1000ms;
-                animation-iteration-count: infinite;
-                animation-timing-function: linear;
-                animation-direction: alternate;
-
-            }
-
-            #viewport.chaos-level-0 .viewport-cell.viewport-cursor {
-                background: blue;
-                color: white;
-            }
-
-            #viewport.chaos-level-1 .viewport-cell.viewport-cursor {
-                background: green;
-                color: white;
-                animation-name: cursor-pulse-low;
-            }
-
-            #viewport.chaos-level-2 .viewport-cell.viewport-cursor {
-                background: yellow;
-                color: white;
-                animation-name: cursor-pulse-med;
-            }
-
-            #viewport.chaos-level-3 .viewport-cell.viewport-cursor {
-                background: red;
-                color: white;
-                animation-name: cursor-pulse-high;
-            }
-
-            #viewport.chaos-level-4 .viewport-cell.viewport-cursor {
-                background: red;
-                color: white;
-                animation-name: cursor-pulse-max;
-            }
-
-            #viewport .viewport-row.viewport-row-header,
-            #viewport .viewport-line-number.viewport-line-number-header {
-                background-color: blue;
-                color: white;
-            }
-
-            pre > span {
-                color: black;
-                background-color: white;
-            }
-
-            @font-face {
-                font-family: 'Fixedsys';
-                src: url(ttf/FSEX300.ttf);
-            }
-
-            * {
-                font-family: Fixedsys, monospace;
-            }
-        </style>
     </head>
     <body>
         <div id="viewport" class="chaos-level-0">

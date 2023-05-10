@@ -5,7 +5,7 @@ export default class GameDisplay {
     }
 
     draw(board) {
-        const chaosLevel = Math.min(Math.floor(board.moves / 10), 4);
+        const chaosLevel = Math.max(Math.min(Math.floor(board.moves / 10), 4), 0);
         document.querySelector('#viewport').setAttribute('class', `chaos-level-${chaosLevel}`);
 
         const vp = document.querySelector('#viewport-chars');
