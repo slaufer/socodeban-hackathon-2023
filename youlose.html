@@ -2,14 +2,69 @@
 <html>
     <head>
         <meta charset=utf-8>
-        <title>Display Test</title>
+        <title>Ha, you lose</title>
         <link rel="stylesheet" href="css/game-viewport.css">
+        <script type="module">
+            const VIEWPORT_WIDTH = 1024;
+            const VIEWPORT_HEIGHT = 768;
+
+            const vp = document.querySelector('#viewport');
+            vp.style.width = `${VIEWPORT_WIDTH + 1}px`;
+            vp.style.height = `${VIEWPORT_HEIGHT + 1}px`;
+
+            const youlose = document.querySelector('#viewport-youlose');
+            youlose.style.lineHeight = `${VIEWPORT_HEIGHT}px`;
+
+            let selected = 0;
+            const opts = [
+                {
+                    name: "die again",
+                    action: () => window.location = `displaytest.html?puzzle=${new URLSearchParams(window.location.search).get('puzzle')}`
+                },
+                {
+                    name: "surrender",
+                    action: () => window.location = 'menu.html'
+                }
+            ]
+
+            const draw = () => {
+                const target = document.querySelector('#viewport-youlose-inner');
+
+                target.innerHTML = "OOPS YOU DIED<BR>";
+
+                opts.forEach((opt, i) => {
+                    target.innerHTML += `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name}<br>`;
+                });
+            }
+
+            window.addEventListener('load', () => {
+                window.addEventListener('keydown', (e) => {
+                    const key = e.key;
+
+                    if (key === 'ArrowUp') {
+                        e.preventDefault();
+                        selected = Math.abs((selected - 1) % opts.length);
+                    } else if (key === 'ArrowDown') {
+                        e.preventDefault();
+                        selected = Math.abs((selected + 1) % opts.length);
+                    } else if (key === 'Enter') {
+                        e.preventDefault();
+                        opts[selected].action();
+                    }
+
+                    draw();
+                });
+
+                draw();
+            });
+        </script>
     </head>
     <body>
         <div id="viewport" class="chaos-level-0">
-            <div id="viewport-chars"></div>
-            <div id="viewport-fx-static"></div>
-            <div id="viewport-fx-testpattern"></div>
+            <div id="viewport-youlose">
+                <div id="viewport-youlose-inner">
+                </div>
+            </div>
         </div>
         <pre id="test-output"></pre>
     </body>
