@@ -1,9 +1,9 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset=utf-8>
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
         <title>Ha, you lose</title>
-        <link rel="stylesheet" href="css/game-viewport.css">
+        <link rel="stylesheet" href="Ha,%20you%20lose_files/game-viewport.css">
         <script type="module">
             import Puzzles from './js/puzzles.mjs';
 
@@ -14,8 +14,10 @@
             vp.style.width = `${VIEWPORT_WIDTH}px`;
             vp.style.height = `${VIEWPORT_HEIGHT}px`;
 
+            const youlose = document.querySelector('#viewport-youlose');
+            youlose.style.lineHeight = `${VIEWPORT_HEIGHT}px`;
+
             let selected = 0;
-            /*
             const opts = [
                 {
                     name: "die again",
@@ -25,17 +27,12 @@
                     name: "surrender",
                     action: () => window.location = 'menu.html'
                 }
-            ]*/
-
-            const opts = Puzzles.map(p => ({
-                name: p.filename.padEnd(14, ' '),
-                action: () => window.location = `displaytest.html?puzzle=${p.filename}`
-            }));
+            ]
 
             const draw = () => {
-                const target = document.querySelector('#viewport-menu-options');
+                const target = document.querySelector('#viewport-youlose-inner');
 
-                target.innerHTML = opts.map((opt, i) => `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name.replaceAll(' ', '&nbsp')}`).join('<br>');
+                target.innerHTML = "MENU<BR>" + opts.map((opt, i) => `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name}`).join('<br>');
             }
 
             window.addEventListener('load', () => {
@@ -61,7 +58,7 @@
         </script>
     </head>
     <body>
-        <div id="viewport" class="chaos-level-menu">
+        <div id="viewport" class="chaos-level-menu" style="width: 1024px; height: 768px;">
             <div id="viewport-menu">
                 <div id="viewport-menu-inner">
                     <div id="viewport-menu-logo">
@@ -77,5 +74,6 @@
             <div id="viewport-fx-testpattern"></div>
         </div>
         <pre id="test-output"></pre>
-    </body>
-</html>
+    
+
+</body></html>
