@@ -2,7 +2,7 @@ import "./skulpt/skulpt.min.js";
 import "./skulpt/skulpt-stdlib.js";
 
 export default class GameState {
-    constructor(script, cursor_x, cursor_y, min_width, validator, filename = "", show_score=true) {
+    constructor(script, cursor_x, cursor_y, min_width, validator, filename = "", show_score=true, par=0) {
         this.filename = filename;
         let prefix = "";
         if (filename !== "") {
@@ -29,6 +29,7 @@ export default class GameState {
         this.output = "";
         this.moves = -1;
         this.show_score = show_score;
+        this.par = par;
 
         this.baseline_x = this.cursor_x;
         this.baseline_y = this.cursor_y;
