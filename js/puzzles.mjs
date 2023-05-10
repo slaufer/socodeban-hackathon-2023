@@ -86,6 +86,20 @@ export default [
             "      'wrong here.') \n" +
             "\n\n\n\n\n",
     },
+    {
+        filename: "THEONLY1.BAD",
+        validator: (x => x.output === "1\n"),
+        par: 36,
+        cursor_x: 27,
+        cursor_y: 1,
+        min_width: 0,
+        script:
+            "#\n" +
+            "# Goal: print the digit one \n" +
+            "#\n" +
+            "print( ) \n" +
+            "\n\n\n\n",
+    },
 ]
 
 /*
