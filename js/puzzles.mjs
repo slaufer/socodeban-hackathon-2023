@@ -1,20 +1,20 @@
 export default [
     {
         filename: "HELOWRLD.INI",
-        validator: (x => x.output === "Hello, World!"),
-        par: 8,
+        validator: (x => x.output === "Hello, World!\n"),
+        par: 10,
         cursor_x: 30,
         cursor_y: 1,
         min_width: 0,
         script:
             "# Goal: print 'Hello, World!'\n" +
             "# This string has too many spaces!\n" +
-            "print('Hello, W o r l d ! )\n" +
+            "print('Hello, W o r l d ! ' )\n" +
             "",
     },
     {
         filename: "ADDPOWER.SUM",
-        validator: (x => x.output === "42"),
+        validator: (x => x.output === "42\n"),
         par: 18,
         cursor_x: 17,
         cursor_y: 2,
@@ -45,7 +45,7 @@ export default [
     },
     {
         filename: "MAKEWORK.JOB",
-        validator: (x => x.output === "0"),
+        validator: (x => x.output === "0\n"),
         par: 100,
         cursor_x: 0,
         cursor_y: 8,
@@ -66,7 +66,7 @@ export default [
     },
     {
         filename: "WAITWHAT.HUH",
-        validator: (x => x.moves < 10 && x.output === 'Something seems wrong here.'),
+        validator: (x => x.moves < 10 && x.output === 'Something seems wrong here.\n'),
         par: 9,
         cursor_x: 17,
         cursor_y: 3,
