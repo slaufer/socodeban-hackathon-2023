@@ -15,7 +15,7 @@ export default [
     {
         filename: "ADDPOWER.SUM",
         validator: (x => x.output === "42"),
-        par: 0,
+        par: 18,
         cursor_x: 17,
         cursor_y: 2,
         min_width: 0,
@@ -27,7 +27,8 @@ export default [
     },
 ]
 
-let template = [
+/*
+Template
     {
         filename: "",
         validator: (x => x),
@@ -40,4 +41,4 @@ let template = [
         "\n" +
         "",
     },
-]
+*/
