@@ -9,7 +9,7 @@ export default class GameState {
             prefix += "FILE:" + filename;
         }
         if (show_score) {
-            prefix += "  MOVES: -1";
+            prefix += "          ";
         }
         if (prefix !== "") {
             script = "#" + prefix + "\n" + script;
@@ -29,6 +29,20 @@ export default class GameState {
         this.output = "";
         this.moves = -1;
         this.show_score = show_score;
+
+        this.baseline_x = this.cursor_x;
+        this.baseline_y = this.cursor_y;
+        this.baseline_contents = this.contents.map(x => [...x]);
+
+        this.update_moves_display();
+    }
+
+    reset() {
+        this.cursor_x = this.baseline_x;
+        this.cursor_y = this.baseline_y;
+        this.contents = this.baseline_contents.map(x => [...x]);
+        this.output = "";
+        this.moves = -1;
         this.update_moves_display();
     }
 

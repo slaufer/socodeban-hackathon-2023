@@ -301,3 +301,29 @@ x.moveUp(); // display overwrites property of -2 with -1, then updates to -1
 if (x.moves !== -1) {
     console.log("move update negative " + x.moves);
 } else {  process.stdout.write("."); }
+
+
+
+// reset
+console.log("\nreset");
+// Carefully place the '-' below the space in "MOVES: 0", then push it into place
+x = new GameState('Lorem ipsum\ndolor sit amet,\nconsectetur adipiscing elit', 5,2, 0, x => x, '', true);
+x.moveUp(); // display overwrites property of 5 with display value 0, then updates to 1
+x.moveUp();
+x.moveUp();
+x.moveRight();
+x.moveRight();
+x.moveRight();
+x.moveRight();
+x.moveRight();
+x.moveRight();
+x.moveDown();
+if (x.contents.map(x => x.join('')).join('\n') !== "#                 MOVES: 10\nLorem ipsumc               \ndolor sit amet,            \nconse tetur adipiscing elit") {
+    console.log("reset moves changed " + x.contents.map(x => x.join('')).join('\n') );
+} else {  process.stdout.write("."); }
+x.reset();
+if (x.contents.map(x => x.join('')).join('\n') !== "#                  MOVES: 0\nLorem ipsum                \ndolor sit amet,            \nconsectetur adipiscing elit") {
+    console.log("move update negative " + x.contents.map(x => x.join('')).join('\n') );
+} else {  process.stdout.write("."); }
+
+
