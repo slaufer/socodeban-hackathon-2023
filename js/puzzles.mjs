@@ -2,9 +2,9 @@ export default [
     {
         filename: "HELOWRLD.INI",
         validator: (x => x.output === "Hello, World!\n"),
-        par: 10,
+        par: 12,
         cursor_x: 30,
-        cursor_y: 1,
+        cursor_y: 2,
         min_width: 0,
         script:
             "# Goal: print 'Hello, World!'\n" +
@@ -15,21 +15,21 @@ export default [
     {
         filename: "ADDPOWER.SUM",
         validator: (x => x.output === "42\n"),
-        par: 18,
-        cursor_x: 17,
+        par: 25,
+        cursor_x: 18,
         cursor_y: 2,
         min_width: 0,
         script:
             "# Goal: print 42 \n" +
             "\n" +
-            "print(8 + 6 * 6 * 2) \n" +
-            "\n\n\n\n",
+            "print(6 + 6 * 6 * 2) \n" +
+            "\n\n\n\n\n",
     },
     {
         filename: "PREPWORK.EXE",
         validator: (x => true),
         par: 1,
-        cursor_x: 20,
+        cursor_x: 18,
         cursor_y: 3,
         min_width: 0,
         script:
@@ -41,14 +41,16 @@ export default [
             "        'skim docs',\n" +
             "      ]\n" +
             "    return prep\n" +
-            "print(prepwork())",
+            "\n" +
+            "print(prepwork())\n" +
+            "",
     },
     {
         filename: "MAKEWORK.JOB",
         validator: (x => x.output === "0\n"),
-        par: 100,
+        par: 1000,
         cursor_x: 0,
-        cursor_y: 8,
+        cursor_y: 13,
         min_width: 0,
         script:
             "# Goal: print the number of jobs created \n" +
@@ -56,28 +58,33 @@ export default [
             "class Job(): \n" +
             "    jobs = []\n" +
             "    def create():\n" +
-            "        j = Job()          # Help, I'm stuck in a\n" +
-            "        Job.jobs.append(j) # socodeban factory!\n" +
+            "        # HELP!\n" +
+            "        j = Job()\n" +
+            "        Job.jobs.append(j)\n" +
+            "        # I'm stuck\n" +
+            "        # in a socodeban factory!\n" +
             "        return j\n" +
             "\n" +
-            "count = # (length for job created by Job.create calls here)\n" +
+            "count = # (length for job created by\n" +
+            "        #  Job.create calls here)\n" +
             "\n" +
             "print(count)",
     },
     {
         filename: "WAITWHAT.HUH",
         validator: (x => x.moves < 10 && x.output === 'Something seems wrong here.\n'),
-        par: 9,
-        cursor_x: 17,
+        par: 15,
+        cursor_x: 25,
         cursor_y: 3,
         min_width: 0,
         script:
-            "# Goal: print the starting message -- " +
+            "# Goal: print starting message -- \n" +
             "#       in under 10 moves. \n" +
             "\n" +
-            "p\n" +
-            " rint('Something seems wrong here.') \n" +
-            "",
+            "    t\n" +
+            "prin ('Something seems ' +\n" +
+            "      'wrong here.') \n" +
+            "\n\n\n\n\n",
     },
 ]
 
