@@ -54,7 +54,9 @@
                     }
                 });
 
-                document.querySelector('#viewport-youlose').style.backgroundColor = '#9999ff';
+                if (sane === "1") {
+                    document.querySelector('#viewport-youlose').style.backgroundColor = '#9999ff';
+                }
 
                 draw();
             });
