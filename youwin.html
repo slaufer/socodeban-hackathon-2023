@@ -88,6 +88,9 @@
                         timeouts.forEach((timeout) => clearTimeout(timeout));
                         opts[selected].action();
                         draw();
+                    } else if (key === 'q') {
+                        e.preventDefault();
+                        window.location = `menu.html?sane=${sane}`   
                     }
                 });
             });

@@ -56,6 +56,9 @@
                     } else if (key === 'ArrowRight') {
                         e.preventDefault();
                         gameState.moveRight();
+                    } else if (key === 'q') {
+                        e.preventDefault();
+                        window.location = `menu.html?sane=${sane}`   
                     }
 
                     gameDisplay.draw(gameState, puzzle, sane);

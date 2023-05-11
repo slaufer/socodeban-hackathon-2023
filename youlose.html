@@ -51,6 +51,9 @@
                     } else if (key === 'Enter') {
                         e.preventDefault();
                         opts[selected].action();
+                    } else if (key === 'q') {
+                        e.preventDefault();
+                        window.location = `menu.html?sane=${sane}`   
                     }
                 });
 
