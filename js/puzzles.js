@@ -1,4 +1,4 @@
-export default [
+window.Puzzles = [
     {
         filename: "HELOWRLD.INI",
         validator: (x => x.output === "Hello, World!\n"),
