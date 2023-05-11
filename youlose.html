@@ -2,11 +2,13 @@
 <html>
     <head>
         <meta charset=utf-8>
-        <title>Ha, you lose</title>
+        <title>socodeban / you lose</title>
         <link rel="stylesheet" href="css/game-viewport.css">
         <script type="module">
             const VIEWPORT_WIDTH = 1024;
             const VIEWPORT_HEIGHT = 768;
+
+            const sane = new URLSearchParams(window.location.search).get('sane') === "1" ? "1" : "0";
 
             const vp = document.querySelector('#viewport');
             vp.style.width = `${VIEWPORT_WIDTH}px`;
@@ -18,19 +20,20 @@
             let selected = 0;
             const opts = [
                 {
-                    name: "die again",
-                    action: () => window.location = `displaytest.html?puzzle=${new URLSearchParams(window.location.search).get('puzzle')}`
+                    name: sane === "1" ? "Try again" : "die again",
+                    action: () => window.location = `displaytest.html?puzzle=${new URLSearchParams(window.location.search).get('puzzle')}&sane=${sane}`
                 },
                 {
-                    name: "surrender",
-                    action: () => window.location = 'menu.html'
+                    name: sane === "1" ? "Main menu" : "surrender",
+                    action: () => window.location = `menu.html?sane=${sane}`
                 }
             ]
 
             const draw = () => {
                 const target = document.querySelector('#viewport-youlose-inner');
 
-                target.innerHTML = "OOPS YOU DIED<BR>" + opts.map((opt, i) => `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name}`).join('<br>');
+                target.innerHTML = (sane === "1" ? "Move limit exceeded<BR>" : "OOPS YOU DIED<BR>") +
+                    opts.map((opt, i) => `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name}`).join('<br>');
             }
 
             window.addEventListener('load', () => {
@@ -40,16 +43,18 @@
                     if (key === 'ArrowUp') {
                         e.preventDefault();
                         selected = Math.abs((selected - 1) % opts.length);
+                        draw();
                     } else if (key === 'ArrowDown') {
                         e.preventDefault();
                         selected = Math.abs((selected + 1) % opts.length);
+                        draw();
                     } else if (key === 'Enter') {
                         e.preventDefault();
                         opts[selected].action();
                     }
-
-                    draw();
                 });
+
+                document.querySelector('#viewport-youlose').style.backgroundColor = '#9999ff';
 
                 draw();
             });

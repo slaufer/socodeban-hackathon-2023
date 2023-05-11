@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset=utf-8>
-        <title>Display Test</title>
+        <title>socodeban / play</title>
         <link rel="stylesheet" href="css/game-viewport.css">
         <script type="module">
             import GameState from './js/socodeban.mjs';
@@ -11,6 +11,8 @@
 
             const VIEWPORT_WIDTH = 1024;
             const VIEWPORT_HEIGHT = 768;
+
+            const sane = new URLSearchParams(window.location.search).get('sane') === "1" ? "1" : "0";
 
             window.addEventListener('load', () => {
                 const puzzle = Puzzles.find(p => p.filename === new URLSearchParams(window.location.search).get('puzzle'));
@@ -32,7 +34,7 @@
                     puzzle.show_score === undefined ? true : puzzle.show_score,
                 );
 
-                gameDisplay.draw(gameState, puzzle);
+                gameDisplay.draw(gameState, puzzle, sane);
 
                 const vp = document.querySelector('#viewport');
                 vp.style.width = `${VIEWPORT_WIDTH + 1}px`;
@@ -56,15 +58,13 @@
                         gameState.moveRight();
                     }
 
-                    gameDisplay.draw(gameState, puzzle);
+                    gameDisplay.draw(gameState, puzzle, sane);
 
                     if (gameState.moves > puzzle.par * 2) {
-                        window.location = `youlose.html?puzzle=${puzzle.filename}`
+                        window.location = `youlose.html?puzzle=${puzzle.filename}&sane=${sane}`;
                     } else if (gameState.validate()) {
-                        window.location = `youwin.html?puzzle=${puzzle.filename}`
+                        window.location = `youwin.html?puzzle=${puzzle.filename}&sane=${sane}`;
                     }
-
-                    console.log(gameState.validate());
                 });
             });
         </script>

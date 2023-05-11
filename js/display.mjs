@@ -4,9 +4,11 @@ export default class GameDisplay {
         this.viewportHeight = viewportHeight;
     }
 
-    draw(gameState, puzzle) {
-        const chaosLevel = Math.max(Math.min(Math.floor(gameState.moves / (puzzle.par * 0.4)), 4), 0);
-        document.querySelector('#viewport').setAttribute('class', `chaos-level-${chaosLevel}`);
+    draw(gameState, puzzle, sane) {
+        if (sane !== "1") {
+            const chaosLevel = Math.max(Math.min(Math.floor(gameState.moves / (puzzle.par * 0.4)), 4), 0);
+            document.querySelector('#viewport').setAttribute('class', `chaos-level-${chaosLevel}`);
+        }
 
         const charViewport = document.querySelector('#viewport-chars');
 
