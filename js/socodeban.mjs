@@ -30,6 +30,7 @@ export default class GameState {
         this.moves = -1;
         this.show_score = show_score;
         this.par = par;
+        this.sk = Sk;
 
         this.baseline_x = this.cursor_x;
         this.baseline_y = this.cursor_y;
@@ -127,9 +128,9 @@ export default class GameState {
     validate() {
         this.output = "";
         this.error = undefined;
-        Sk.configure({ output: (text) => this.storeOutput(text) });
+        this.sk.configure({ output: (text) => this.storeOutput(text) });
         try {
-            Sk.importMainWithBody("<stdin>", false, this.arraysToString(this.contents), true);
+            this.sk.importMainWithBody("<stdin>", false, this.arraysToString(this.contents), true);
         } catch (e) {
             this.error = e;
             return false;

@@ -1,3 +1,6 @@
+import "./skulpt/skulpt.min.js";
+import "./skulpt/skulpt-stdlib.js";
+
 import GameState from "./socodeban.mjs"
 
 // constructor
@@ -326,4 +329,7 @@ if (x.contents.map(x => x.join('')).join('\n') !== "#                  MOVES: 0\
     console.log("move update negative " + x.contents.map(x => x.join('')).join('\n') );
 } else {  process.stdout.write("."); }
 
-
+// let script = 'def foobar(): pass'
+// Sk.configure({ output: (text) => this.storeOutput(text) });
+// Sk.importMainWithBody("<stdin>", false, script, true);
+// console.log(Sk.globals.foobar);

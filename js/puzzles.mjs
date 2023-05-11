@@ -46,27 +46,84 @@ export default [
             "",
     },
     {
+        filename: "DICTCOMP.NOT",
+        validator: (x => x.output === "{'to': 2, 'here': 4}\n"),
+        par: 1000,
+        cursor_x: 0,
+        cursor_y: 13,
+        min_width: 0,
+        script:
+            "#\n" +
+            "# Goal: Print a dictionary mapping the provided\n" +
+            "#       odd length strings to their length \n" +
+            "#\n" +
+            "\n" +
+            "# This dictionary comprehension is malformed:\n" +
+            "#    it needs 1 ocr 2 components before the 'for'\n" +
+            "#    (and there's no division or modulo to be found!) \n" +
+            "\n" +
+            "result = { \n" +
+            "    for s in 'nothing to see here'.split()\n" +
+            "    if len(s) == ???\n" +
+            "        \n" +
+            "        \n" +
+            "print(result)\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "",
+    },
+    {
+        filename: "FUNCTION.DEF",
+        validator: (x => x.sk.globals.right !== undefined),
+        par: 1000,
+        cursor_x: 33,
+        cursor_y: 0,
+        min_width: 0,
+        script:
+            "#\n" +
+            "# Goal: define a function named 'right' \n" +
+            "#\n" +
+            "\n" +
+            "def wrong(): \n" +
+            "    return true\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "",
+    },
+    {
         filename: "MAKEWORK.JOB",
         validator: (x => x.output === "0\n"),
         par: 1000,
         cursor_x: 0,
-        cursor_y: 13,
+        cursor_y: 12,
         min_width: 0,
         script:
             "# Goal: print the number of jobs created \n" +
             "\n" +
             "class Job(): \n" +
             "    jobs = []\n" +
-            "    def create():\n" +
+            "    def __init__(self, number):\n" +
             "        # HELP!\n" +
-            "        j = Job()\n" +
-            "        Job.jobs.append(j)\n" +
+            "        self.number = number\n" +
+            "        Job.jobs.append(self)\n" +
             "        # I'm stuck\n" +
             "        # in a socodeban factory!\n" +
-            "        return j\n" +
+            "\n" +
+            "[Job(x) for x in range(len('options here'))\n" +
             "\n" +
             "count = # (length for job created by\n" +
-            "        #  Job.create calls here)\n" +
+            "        #  Job constructor calls here)\n" +
             "\n" +
             "print(count)",
     },
