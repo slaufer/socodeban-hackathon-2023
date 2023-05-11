@@ -4,32 +4,31 @@
         <meta charset=utf-8>
         <title>socodeban / menu</title>
         <link rel="stylesheet" href="css/game-viewport.css">
-        <script type="module">
-            import Puzzles from './js/puzzles.mjs';
-
+        <script src="./js/puzzles.js" type="text/javascript"></script>
+        <script type="text/javascript">
             const VIEWPORT_WIDTH = 1024;
             const VIEWPORT_HEIGHT = 768;
 
             const sane = new URLSearchParams(window.location.search).get('sane') === "1" ? "1" : "0";
 
-            const vp = document.querySelector('#viewport');
-            vp.style.width = `${VIEWPORT_WIDTH}px`;
-            vp.style.height = `${VIEWPORT_HEIGHT}px`;
-
-            let selected = 0;
-
-            const opts = Puzzles.map(p => ({
-                name: p.filename.padEnd(14, ' '),
-                action: () => window.location = `displaytest.html?puzzle=${p.filename}&sane=${sane}`
-            }));
-
-            const draw = () => {
-                const target = document.querySelector('#viewport-menu-options');
-
-                target.innerHTML = opts.map((opt, i) => `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name.replaceAll(' ', '&nbsp')}`).join('<br>');
-            }
-
             window.addEventListener('load', () => {
+                const vp = document.querySelector('#viewport');
+                vp.style.width = `${VIEWPORT_WIDTH}px`;
+                vp.style.height = `${VIEWPORT_HEIGHT}px`;
+
+                let selected = 0;
+
+                const opts = Puzzles.map(p => ({
+                    name: p.filename.padEnd(14, ' '),
+                    action: () => window.location = `displaytest.html?puzzle=${p.filename}&sane=${sane}`
+                }));
+
+                const draw = () => {
+                    const target = document.querySelector('#viewport-menu-options');
+
+                    target.innerHTML = opts.map((opt, i) => `${selected === i ? '&gt;&nbsp;' : '&nbsp;&nbsp;'}${opt.name.replaceAll(' ', '&nbsp')}`).join('<br>');
+                }
+
                 window.addEventListener('keydown', (e) => {
                     const key = e.key;
 

@@ -1,7 +1,4 @@
-import "./skulpt/skulpt.min.js";
-import "./skulpt/skulpt-stdlib.js";
-
-export default class GameState {
+window.GameState = class GameState {
     constructor(script, cursor_x, cursor_y, min_width, validator, filename = "", show_score=true, par=0) {
         this.filename = filename;
         let prefix = "";

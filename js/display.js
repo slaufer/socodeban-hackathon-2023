@@ -1,4 +1,4 @@
-export default class GameDisplay {
+window.GameDisplay = class GameDisplay {
     constructor(viewportWidth, viewportHeight) {
         this.viewportWidth = viewportWidth;
         this.viewportHeight = viewportHeight;
