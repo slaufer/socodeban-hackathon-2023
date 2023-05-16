@@ -157,7 +157,17 @@ window.Puzzles = [
             "print( ) \n" +
             "\n\n\n\n",
     },
-]
+];
+
+const savedPuzzles = localStorage.puzzles;
+
+if (savedPuzzles) {
+    try {
+        window.Puzzles = JSON.parse(savedPuzzles, (k,v) => k === 'validator' ? eval(v.replace('\n', '\\n').replace('\r', '\\r')) : v);
+    } catch(e) {
+        console.error(e);
+    }    
+}
 
 /*
 Template
