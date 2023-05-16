@@ -163,7 +163,7 @@ const savedPuzzles = localStorage.puzzles;
 
 if (savedPuzzles) {
     try {
-        window.Puzzles = JSON.parse(savedPuzzles, (k,v) => k === 'validator' ? eval(v.replace('\n', '\\n').replace('\r', '\\r')) : v);
+        window.Puzzles = JSON.parse(savedPuzzles, (k,v) => k === 'validator' ? eval(v) : v);
     } catch(e) {
         console.error(e);
     }    
